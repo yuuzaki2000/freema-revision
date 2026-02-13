@@ -17,10 +17,10 @@ class CreatePurchasesTable extends Migration
             $table->id();
             $table->string('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('product_id')->constrained('products')->cascadeOnDelete();
-            $table->string('payment_method')->nullable();
-            $table->string('post_code')->nullable();
-            $table->string('address')->nullable();
-            $table->string('building')->nullable();
+            $table->string('payment_method');
+            $table->string('post_code');
+            $table->string('address');
+            $table->string('building');
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });
