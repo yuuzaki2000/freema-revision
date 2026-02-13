@@ -75,19 +75,19 @@
                 </div>
                 <form action="/products/<?php echo e($product->id); ?>/trades/messages" method="POST" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
-                    <input type="text" name="content">
+                    <input type="text" name="content" style="width:400px;" placeholder="取引メッセージを入力してください">
                     <label class="file-label">
                         画像を追加
                         <input type="file" name="file" class="file-input">
                     </label>
-                    <input type="hidden" name="page" value="buyer" placeholder="取引メッセージを入力してください">
+                    <input type="hidden" name="page" value="buyer">
                     <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
                     <?php $__errorArgs = ['content'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <div><?php echo e($message); ?></div>
+                        <div style="color:red;"><?php echo e($message); ?></div>
                     <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
@@ -97,7 +97,7 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <div><?php echo e($message); ?></div>
+                        <div style="color:red;"><?php echo e($message); ?></div>
                     <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;

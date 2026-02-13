@@ -11,7 +11,6 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TradeController;
 use App\Http\Controllers\StarController;
-use App\Http\Controllers\PurchaseController;
 
 
 /*

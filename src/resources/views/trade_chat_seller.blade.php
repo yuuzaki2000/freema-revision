@@ -10,7 +10,7 @@
     <div class="side-bar">
         <p class="side-bar-title">その他の取引</p>
         @foreach ($side_trades as $trade)
-            <form action="/products/{{$product->id}}/trades/{{$trade->id}}" method="GET">
+            <form action="/products/{{$trade->product->id}}/trades" method="GET">
                 @csrf
                 <button type="submit">取引{{$trade->id}}</button>
 
@@ -46,7 +46,7 @@
                 @endforeach
                 <form action="/products/{{$product->id}}/trades/messages" method="POST" enctype="multipart/form-data">
                 @csrf
-                    <input type="text" name="content">
+                    <input type="text" name="content" style="width:400px;" placeholder="取引メッセージを入力してください">
                     <label class="file-label">
                         画像を追加
                         <input type="file" name="file" class="file-input">
@@ -54,10 +54,10 @@
                     <input type="hidden" name="page" value="seller">
                     <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
                     @error('content')
-                        <div>{{$message}}</div>
+                        <div style="color:red;">{{$message}}</div>
                     @enderror
                     @error('file')
-                        <div>{{$message}}</div>
+                        <div style="color:red;">{{$message}}</div>
                     @enderror
                 </form>
         </div>

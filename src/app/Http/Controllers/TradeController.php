@@ -16,11 +16,8 @@ class TradeController extends Controller
 {
     //
     public function index($item_id){
-        $trade = Trade::where('product_id', $item_id)->where('buyer_id', Auth::id())->first();
-
-        if($trade == null){
-            $trade = Trade::where('product_id', $item_id)->where('seller_id', Auth::id())->first();
-        }
+        $product = Product::find($item_id);
+        $trade = $product->trade;
 
         if($trade->status == "negotiating"){
             return redirect("/products/{$item_id}/trades/{$trade->id}");
@@ -33,14 +30,13 @@ class TradeController extends Controller
     public function getDetail($item_id, $trade_id){
         $trade = Trade::find($trade_id);
         if($trade->buyer->id == Auth::id()){
-            //tradeデータのstatusカラムがcompletedの場合分けできず
                 $product = Product::find($item_id);
                 $contents = Message::all();
                 return view('trade_chat_buyer', compact('product', 'contents'));
         }else if(Trade::find($trade_id)->seller->id == Auth::id()){
+            $side_trades = Trade::where('seller_id', Auth::id())->get();
             $product = Product::find($item_id);
             $contents = Message::all();
-            $side_trades = Trade::where('product_id', $item_id)->where('seller_id', Auth::id())->get();
             return view('trade_chat_seller', compact('product', 'contents','side_trades'));
         }else{
         }

@@ -38,14 +38,14 @@ mailtrapのメールボックスを作成し、
 MAIL_MAILER=smtp
 MAIL_HOST=sandbox.smtp.mailtrap.io
 MAIL_PORT=2525
-MAIL_USERNAME=bc0792fcbad78f
-MAIL_PASSWORD=20bbe0136d3bc6
+MAIL_USERNAME=(自分のusername)
+MAIL_PASSWORD=(自分のpassword)
 MAIL_ENCRYPTION=tls
 ※
 MAIL_FROM_ADDRESS=from@example.com
 MAIL_FROM_NAME="${APP_NAME}"
 
-.envに下記の変数を追加（Secret KeyやPublic Keyは、mailtrapのホームページから自分のものをコピー）
+.envに下記の変数を追加（Secret KeyやPublic Keyは、stripeのホームページから自分のものをコピー）
 
 STRIPE_SK = (test用のSecret Key)
 
@@ -66,3 +66,5 @@ E-R図<img width="1181" height="1122" alt="er drawio" src="https://github.com/us
 
 ある商品の詳細画面から、コメントを送信すると、取引チャット画面が作成されますので、マイページの『取引中の商品』タブを押下し、表示された画像から、取引チャット画面に入って、メッセージのやり取りを続けることができます。
 
+# freema-revision
+# freema-revision

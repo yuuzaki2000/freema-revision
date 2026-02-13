@@ -8,7 +8,7 @@
     <div class="side-bar">
         <p class="side-bar-title">その他の取引</p>
         <?php $__currentLoopData = $side_trades; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $trade): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <form action="/products/<?php echo e($product->id); ?>/trades/<?php echo e($trade->id); ?>" method="GET">
+            <form action="/products/<?php echo e($trade->product->id); ?>/trades" method="GET">
                 <?php echo csrf_field(); ?>
                 <button type="submit">取引<?php echo e($trade->id); ?></button>
 
@@ -44,7 +44,7 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <form action="/products/<?php echo e($product->id); ?>/trades/messages" method="POST" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
-                    <input type="text" name="content">
+                    <input type="text" name="content" style="width:400px;" placeholder="取引メッセージを入力してください">
                     <label class="file-label">
                         画像を追加
                         <input type="file" name="file" class="file-input">
@@ -56,7 +56,7 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <div><?php echo e($message); ?></div>
+                        <div style="color:red;"><?php echo e($message); ?></div>
                     <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
@@ -66,7 +66,7 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <div><?php echo e($message); ?></div>
+                        <div style="color:red;"><?php echo e($message); ?></div>
                     <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;

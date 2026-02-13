@@ -9,7 +9,7 @@
     <div class="upper">
         @isset($profile)
         <div>
-            <img src="{{asset($profile->image)}}" alt="プロフィール画像">
+            <img src="{{asset('storage/profile_img/' . $profile->image)}}" alt="プロフィール画像">
         </div>
         @endisset
         <h2>{{$user->name}}</h2>
@@ -62,15 +62,20 @@
     <div class="container">
         @php
             $particularProducts = $products->sortBy('created_at');
+            //変更要
         @endphp
         <ul class="group">
-                @if (!empty($products))
-                @foreach ($particularProducts as $product)
+                @if ($products->count() > 0)
+                @foreach ($products as $product)
                     @php
-                        $message_count = App\Models\Message::where('trade_id', $product->trade->id)
+                        if($product->trade){
+                            $message_count = App\Models\Message::where('trade_id', $product->trade->id)
                                         ->whereHas('trade', function ($query) {
                                                 $query->where('seller_id', Auth::id());
                                         })->count();
+                        }else{
+                            $message_count = 0;
+                        }
                     @endphp
                     <li class="compartment">
                         <form action="/products/{{$product->id}}/trades" class="item" method="GET">
