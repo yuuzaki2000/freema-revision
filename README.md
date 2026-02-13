@@ -62,9 +62,6 @@ STRIPE_PK = （test用のPublic Key）
 
 E-R図<img width="1181" height="1122" alt="er drawio" src="https://github.com/user-attachments/assets/d9e6dd5b-d8aa-490a-a83f-59464e526775" />
 
-[取引チャット画面の作成について]
-
-ある商品の詳細画面から、コメントを送信すると、取引チャット画面が作成されますので、マイページの『取引中の商品』タブを押下し、表示された画像から、取引チャット画面に入って、メッセージのやり取りを続けることができます。
 
 # freema-revision
 # freema-revision
