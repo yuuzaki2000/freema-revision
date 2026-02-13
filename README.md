@@ -1,4 +1,4 @@
-# freema
+# freema-revision
 [Dockerビルド]
 1. git clone git@github.com:yuuzaki2000/freema.git
 2. docker-compose up -d --build
