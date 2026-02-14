@@ -99,7 +99,7 @@
             <div class="modal__inner">
                 <div class="modal__content">
                     <div class="modal-container">
-                        <livewire:count />
+                        <livewire:count :seller="$product->trade->seller" :product="$product"/>
                     </div>
                 </div>
             </div>

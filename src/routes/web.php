@@ -24,7 +24,7 @@ use App\Http\Controllers\StarController;
 |
 */
 
-Route::get('/', [ItemController::class, 'index']);
+Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item_id}', [ItemController::class, 'getDetail'])->name('item.detail');
 Route::post('/search', [ItemController::class, 'search']);
 Route::get('/email/verify', [EmailController::class, 'index']);

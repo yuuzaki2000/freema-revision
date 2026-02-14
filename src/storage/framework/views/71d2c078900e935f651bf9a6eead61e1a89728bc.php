@@ -114,16 +114,16 @@ unset($__errorArgs, $__bag); ?>
                     <div class="modal-container">
                         <?php
 if (! isset($_instance)) {
-    $html = \Livewire\Livewire::mount('count', [])->html();
-} elseif ($_instance->childHasBeenRendered('RwMVzHc')) {
-    $componentId = $_instance->getRenderedChildComponentId('RwMVzHc');
-    $componentTag = $_instance->getRenderedChildComponentTagName('RwMVzHc');
+    $html = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product])->html();
+} elseif ($_instance->childHasBeenRendered('GwBDAcI')) {
+    $componentId = $_instance->getRenderedChildComponentId('GwBDAcI');
+    $componentTag = $_instance->getRenderedChildComponentTagName('GwBDAcI');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('RwMVzHc');
+    $_instance->preserveRenderedChild('GwBDAcI');
 } else {
-    $response = \Livewire\Livewire::mount('count', []);
+    $response = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product]);
     $html = $response->html();
-    $_instance->logRenderedChild('RwMVzHc', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('GwBDAcI', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
