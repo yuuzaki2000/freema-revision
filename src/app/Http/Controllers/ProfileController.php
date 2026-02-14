@@ -34,28 +34,16 @@ class ProfileController extends Controller
             }
             $page = $request->page;
         }else if($request->page == "trade"){
-<<<<<<< HEAD
-            $buyer_side_trades = Trade::where('buyer_id', Auth::id())->get();
-            $seller_side_trades = Trade::where('seller_id', Auth::id())->get();
-            $products = collect();
-            foreach($buyer_side_trades as $trade){
-                $product = Product::find($trade->product_id);
-                $products->push($product);
-            }
-            foreach($seller_side_trades as $trade){
-                $product = Product::find($trade->product_id);
-                $products->push($product);
-=======
+
             $particularProducts = Product::all();
 
             foreach($particularProducts as $product){
                 $purchase = Purchase::where('product_id', $product->id)->first();
                 if($purchase){
-                    $product['isSold'] = 'true';
+                    $product->isSold = 'true';
                 }else{
-                    $product['isSold'] = 'false';
+                    $product->isSold = 'false';
                 }
->>>>>>> origin
             }
 
             $buyer_products = Product::whereHas('purchase', function ($q) {

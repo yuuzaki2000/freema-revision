@@ -19,6 +19,7 @@ class TradeController extends Controller
         $product = Product::find($item_id);
         $trade = $product->trade;
 
+
         if($trade->status == "negotiating"){
             return redirect("/products/{$item_id}/trades/{$trade->id}");
         }else{
@@ -92,6 +93,9 @@ class TradeController extends Controller
 
     public function update(Request $request, $item_id, $message_id){
         $message = Message::find($message_id);
+        /*
+        $message->update(['content' => '資料を直ちにいただきたい']);  */
+
         return redirect("/products/{$item_id}/trades/{$message->trade_id}");
     }
 

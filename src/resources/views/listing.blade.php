@@ -7,7 +7,7 @@
 
 @section('content')
 <div>
-    <livewire:listing-cover>
+    <livewire:listing-cover />
     @livewireScripts
 </div>    
 @endsection

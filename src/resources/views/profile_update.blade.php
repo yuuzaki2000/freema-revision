@@ -7,7 +7,7 @@
 
 @section('content')
 <div>
-    <livewire:profile-cover userId="{{$userId}}" profileId="{{$profileId}}">
+    <livewire:profile-cover userId="{{$userId}}" profileId="{{$profileId}}" />
     @livewireScripts
 </div>
 @endsection

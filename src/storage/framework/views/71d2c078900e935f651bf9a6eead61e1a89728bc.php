@@ -1,6 +1,8 @@
 <?php $__env->startSection('css'); ?>
 <link rel="stylesheet" href="<?php echo e(asset('css/trade_chat.css')); ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<?php echo \Livewire\Livewire::styles(); ?>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('total-container'); ?>
@@ -10,8 +12,8 @@
         <div class="center-container">
             <div class="title-bar-container">
                 <div>
-                    <div>
-                        <img src="<?php echo e(asset($product->trade->seller->profile->image)); ?>" alt="ユーザー画像">
+                    <div style="height:50px;width:50px;">
+                        <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->seller->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
                     </div>
                     <h2>「<?php echo e($product->trade->seller->name); ?>」さんとの取引画面</h2>
                 </div>
@@ -109,26 +111,30 @@ unset($__errorArgs, $__bag); ?>
             <a href="#!" class="modal-overlay"></a>
             <div class="modal__inner">
                 <div class="modal__content">
-                    <form action="/star/<?php echo e($product->trade->id); ?>" method="POST" class="modal-container">
-                        <?php echo csrf_field(); ?>
-                        <h3>取引が完了しました</h3>
-                        <p>今回の取引相手はどうでしたか？</p>
-                        <select name="star_point">
-                            <option value="">星の数を選択</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <input type="hidden" name="star_receiver_id" value="<?php echo e($product->trade->seller->id); ?>">
-                        <button type="submit" class="star__btn">送信する</button>
-                    </form>
+                    <div class="modal-container">
+                        <?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('count', [])->html();
+} elseif ($_instance->childHasBeenRendered('RwMVzHc')) {
+    $componentId = $_instance->getRenderedChildComponentId('RwMVzHc');
+    $componentTag = $_instance->getRenderedChildComponentTagName('RwMVzHc');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('RwMVzHc');
+} else {
+    $response = \Livewire\Livewire::mount('count', []);
+    $html = $response->html();
+    $_instance->logRenderedChild('RwMVzHc', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<?php echo \Livewire\Livewire::scripts(); ?>
+
 <?php $__env->stopSection(); ?>
 
 

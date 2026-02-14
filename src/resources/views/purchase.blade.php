@@ -7,7 +7,7 @@
 
 @section('content')
 <div>
-    <livewire:purchase-cover productId="{{$product->id}}" post_code="{{$post_code}}" address="{{$address}}" building="{{$building}}">
+    <livewire:purchase-cover productId="{{$product->id}}" post_code="{{$post_code}}" address="{{$address}}" building="{{$building}}" />
     @livewireScripts
 </div>
 @endsection

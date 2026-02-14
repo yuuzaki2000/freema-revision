@@ -21,11 +21,15 @@
         <div class="center-container">
             <div class="title-bar-container">
                 <div>
-                    <div>
-                        <img src="{{asset($product->trade->seller->profile->image)}}" alt="ユーザー画像">
+                    <div style="height:50px;width:50px;">
+                        <img src="{{asset('storage/profile_img/' . $product->trade->buyer->profile->image)}}" alt="ユーザー画像" style="width:100%;">
                     </div>
-                    <h2>「{{$product->trade->seller->name}}」さんとの取引画面</h2>
+                    <h2>「{{$product->trade->buyer->name}}」さんとの取引画面</h2>
                 </div>
+                <form action="/products/{{$product->id}}/trades/{{$product->trade->id}}" method="POST">
+                    @csrf
+                    <button type="submit" class="trade-complete__btn">取引を完了する</button>
+                </form>
             </div>
             <div class="product-info-container">
                 <div style="height:130px;width:130px;">
@@ -37,13 +41,49 @@
                 </div>
             </div>
             <div class="message-container">
-                @foreach ($contents as $content)
-                @if($content->user_id == Auth::id())
-                    <div style="margin-left: 60%;"><p>{{$content->content}}</p></div>
-                @else
-                    <div><p>{{$content->content}}</p></div>
-                @endif
-                @endforeach
+                <div class="message-group">
+                    @foreach ($contents as $content)
+                        @if($content->user_id == Auth::id())
+                            <div style="margin-left: 60%;"><p>{{$content->content}}</p></div>
+                            @if ($content->image)
+                            <div style="margin-left: 60%;">
+                                <img src="{{asset('storage/message_img/' . $content->image)}}" alt="画像メッセージ">
+                            </div>
+                            @endif
+                            <div class="update-delete-btn" style="margin-left: 60%;font-weight:200;">
+                                <form action="/products/{{$product->id}}/trades/messages/{{$content->id}}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                    <button type="submit">編集</button>
+                                </form>
+                                <form class="delete-btn" action="/products/{{$product->id}}/trades/messages/{{$content->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                    <button type="submit">削除</button>
+                                </form>
+                            </div>
+                        @else
+                            <div><p>{{$content->content}}</p></div>
+                            @if ($content->image)
+                            <div>
+                                <img src="{{asset('storage/message_img/' . $content->image)}}" alt="画像メッセージ">
+                            </div>
+                            <div class="update-delete-btn" style="font-weight:200;">
+                                <form action="/products/{{$product->id}}/trades/messages/{{$content->id}}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                    <button type="submit">編集</button>
+                                </form>
+                                <form class="delete-btn" action="/products/{{$product->id}}/trades/messages/{{$content->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                    <button type="submit">削除</button>
+                                </form>
+                            </div>
+                        @endif
+                        @endif
+                    @endforeach
+                </div>
                 <form action="/products/{{$product->id}}/trades/messages" method="POST" enctype="multipart/form-data">
                 @csrf
                     <input type="text" name="content" style="width:400px;" placeholder="取引メッセージを入力してください">
@@ -51,7 +91,7 @@
                         画像を追加
                         <input type="file" name="file" class="file-input">
                     </label>
-                    <input type="hidden" name="page" value="seller">
+                    <input type="hidden" name="page" value="buyer">
                     <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
                     @error('content')
                         <div style="color:red;">{{$message}}</div>
@@ -60,6 +100,7 @@
                         <div style="color:red;">{{$message}}</div>
                     @enderror
                 </form>
+            </div>
         </div>
         <div class="modal" id="modal">
             <a href="#!" class="modal-overlay"></a>
@@ -77,7 +118,7 @@
                             <option value="4">4</option>
                             <option value="5">5</option>
                         </select>
-                        <input type="hidden" name="star_receiver_id" value="{{$product->trade->seller->id}}">
+                        <input type="hidden" name="star_receiver_id" value="{{$product->trade->buyer->id}}">
                         <button type="submit" class="star__btn">送信する</button>
                     </form>
                 </div>
