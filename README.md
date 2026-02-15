@@ -57,8 +57,7 @@ STRIPE_PK = （test用のPublic Key）
 期限：　12/34
 セキュリティ番号：567
 名前：Zhang San
-国籍：United States
-パスワード：12345
+国籍：日本
 
 E-R図<img width="1181" height="1122" alt="er drawio" src="https://github.com/user-attachments/assets/d9e6dd5b-d8aa-490a-a83f-59464e526775" />
 
