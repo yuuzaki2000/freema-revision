@@ -1,6 +1,8 @@
 <?php $__env->startSection('css'); ?>
 <link rel="stylesheet" href="<?php echo e(asset('css/trade_chat.css')); ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<?php echo \Livewire\Livewire::styles(); ?>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('total-container'); ?>
@@ -16,100 +18,21 @@
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
     <div class="center">
-        <div class="center-container">
-            <div class="title-bar-container">
-                <div>
-                    <div style="height:50px;width:50px;">
-                        <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->buyer->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
-                    </div>
-                    <h2>「<?php echo e($product->trade->buyer->name); ?>」さんとの取引画面</h2>
-                </div>
-            </div>
-            <div class="product-info-container">
-                <div style="height:130px;width:130px;">
-                    <img src="<?php echo e(asset($product->image)); ?>" alt="商品画像" style="width:100%;">
-                </div>
-                <div class="product-info">
-                    <div class="product-name"><?php echo e($product->name); ?></div>
-                    <div class="product-price"><?php echo e($product->price); ?>円</div>
-                </div>
-            </div>
-            <div class="message-container">
-                <div class="message-group">
-                    <?php $__currentLoopData = $contents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $content): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php if($content->user_id == Auth::id()): ?>
-                            <div style="margin-left: 60%;"><p><?php echo e($content->content); ?></p></div>
-                            <?php if($content->image): ?>
-                            <div style="margin-left: 60%;">
-                                <img src="<?php echo e(asset('storage/message_img/' . $content->image)); ?>" alt="画像メッセージ">
-                            </div>
-                            <?php endif; ?>
-                            <div class="update-delete-btn" style="margin-left: 60%;font-weight:200;">
-                                <form action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($content->id); ?>" method="POST">
-                                <?php echo csrf_field(); ?>
-                                <?php echo method_field('PATCH'); ?>
-                                    <button type="submit">編集</button>
-                                </form>
-                                <form class="delete-btn" action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($content->id); ?>" method="POST">
-                                <?php echo csrf_field(); ?>
-                                <?php echo method_field('DELETE'); ?>
-                                    <button type="submit">削除</button>
-                                </form>
-                            </div>
-                        <?php else: ?>
-                            <div><p><?php echo e($content->content); ?></p></div>
-                            <?php if($content->image): ?>
-                            <div>
-                                <img src="<?php echo e(asset('storage/message_img/' . $content->image)); ?>" alt="画像メッセージ">
-                            </div>
-                            <div class="update-delete-btn" style="font-weight:200;">
-                                <form action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($content->id); ?>" method="POST">
-                                <?php echo csrf_field(); ?>
-                                <?php echo method_field('PATCH'); ?>
-                                    <button type="submit">編集</button>
-                                </form>
-                                <form class="delete-btn" action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($content->id); ?>" method="POST">
-                                <?php echo csrf_field(); ?>
-                                <?php echo method_field('DELETE'); ?>
-                                    <button type="submit">削除</button>
-                                </form>
-                            </div>
-                        <?php endif; ?>
-                        <?php endif; ?>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </div>
-                <form action="/products/<?php echo e($product->id); ?>/trades/messages" method="POST" enctype="multipart/form-data">
-                <?php echo csrf_field(); ?>
-                    <input type="text" name="content" style="width:400px;" placeholder="取引メッセージを入力してください">
-                    <label class="file-label">
-                        画像を追加
-                        <input type="file" name="file" class="file-input">
-                    </label>
-                    <input type="hidden" name="page" value="buyer">
-                    <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
-                    <?php $__errorArgs = ['content'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                        <div style="color:red;"><?php echo e($message); ?></div>
-                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                    <?php $__errorArgs = ['file'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                        <div style="color:red;"><?php echo e($message); ?></div>
-                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                </form>
-            </div>
-        </div>
+        <?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('post', ['sideTrades' => $side_trades,'product' => $product,'contents' => $contents,'side_trades' => $side_trades,'partner' => $product->trade->buyer])->html();
+} elseif ($_instance->childHasBeenRendered('oVwMBnO')) {
+    $componentId = $_instance->getRenderedChildComponentId('oVwMBnO');
+    $componentTag = $_instance->getRenderedChildComponentTagName('oVwMBnO');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('oVwMBnO');
+} else {
+    $response = \Livewire\Livewire::mount('post', ['sideTrades' => $side_trades,'product' => $product,'contents' => $contents,'side_trades' => $side_trades,'partner' => $product->trade->buyer]);
+    $html = $response->html();
+    $_instance->logRenderedChild('oVwMBnO', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?>
         <div class="modal" id="modal">
             <a href="#!" class="modal-overlay"></a>
             <div class="modal__inner">
@@ -117,16 +40,16 @@ unset($__errorArgs, $__bag); ?>
                     <div class="modal-container">
                         <?php
 if (! isset($_instance)) {
-    $html = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product])->html();
-} elseif ($_instance->childHasBeenRendered('Z0crQXQ')) {
-    $componentId = $_instance->getRenderedChildComponentId('Z0crQXQ');
-    $componentTag = $_instance->getRenderedChildComponentTagName('Z0crQXQ');
+    $html = \Livewire\Livewire::mount('count', ['partner' => $product->trade->buyer,'product' => $product])->html();
+} elseif ($_instance->childHasBeenRendered('Sfo77R6')) {
+    $componentId = $_instance->getRenderedChildComponentId('Sfo77R6');
+    $componentTag = $_instance->getRenderedChildComponentTagName('Sfo77R6');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('Z0crQXQ');
+    $_instance->preserveRenderedChild('Sfo77R6');
 } else {
-    $response = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product]);
+    $response = \Livewire\Livewire::mount('count', ['partner' => $product->trade->buyer,'product' => $product]);
     $html = $response->html();
-    $_instance->logRenderedChild('Z0crQXQ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('Sfo77R6', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -136,6 +59,8 @@ echo $html;
         </div>
     </div>
 </div>
+<?php echo \Livewire\Livewire::scripts(); ?>
+
 <?php $__env->stopSection(); ?>
 
 

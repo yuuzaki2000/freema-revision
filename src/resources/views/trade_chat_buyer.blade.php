@@ -18,16 +18,13 @@
         @endforeach
     </div>
     <div class="center">
-        @php
-            $content = session('content','');
-        @endphp
-        <livewire:test :product="$product" :contents="$contents" :side_trades="$side_trades" :content="$content"/>
+        <livewire:test :product="$product" :contents="$contents" :side_trades="$side_trades" :partner="$product->trade->seller"/>
         <div class="modal" id="modal">
             <a href="#!" class="modal-overlay"></a>
             <div class="modal__inner">
                 <div class="modal__content">
                     <div class="modal-container">
-                        <livewire:count :seller="$product->trade->seller" :product="$product"/>
+                        <livewire:count :partner="$product->trade->seller" :product="$product"/>
                     </div>
                 </div>
             </div>

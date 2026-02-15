@@ -10,11 +10,11 @@ class Count extends Component
 {
 
     public $count = 0;
-    public $seller;
+    public $partner;
     public $product;
 
-    public function mount($seller, $product){
-        $this->seller = $seller;
+    public function mount($partner, $product){
+        $this->partner = $partner;
         $this->product = $product;
     }
 
@@ -28,7 +28,7 @@ class Count extends Component
 
     public function sendStar(){
         Star::create([
-            'user_id' => $this->seller->id,
+            'user_id' => $this->partner->id,
             'point' => $this->count,
             ]);
         

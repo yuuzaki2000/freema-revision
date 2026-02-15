@@ -33,12 +33,24 @@ class TradeController extends Controller
         if($trade->buyer->id == Auth::id()){
             $side_trades = Trade::where('buyer_id', Auth::id())->get();
             $product = Product::find($item_id);
-            $contents = Message::all();
+            $contents = Message::whereHas('trade', function ($q) {
+                            $q->where('buyer_id', Auth::id());
+                        })
+                        ->orWhereHas('trade', function ($q) {
+                            $q->where('seller_id', Auth::id());
+                        })
+                        ->get();
             return view('trade_chat_buyer', compact('product', 'contents', 'side_trades'));
         }else if(Trade::find($trade_id)->seller->id == Auth::id()){
             $side_trades = Trade::where('seller_id', Auth::id())->get();
             $product = Product::find($item_id);
-            $contents = Message::all();
+            $contents = Message::whereHas('trade', function ($q) {
+                            $q->where('buyer_id', Auth::id());
+                        })
+                        ->orWhereHas('trade', function ($q) {
+                            $q->where('seller_id', Auth::id());
+                        })
+                        ->get();
             return view('trade_chat_seller', compact('product', 'contents','side_trades'));
         }else{
         }
@@ -96,8 +108,7 @@ class TradeController extends Controller
 
     public function update(Request $request, $item_id, $message_id){
         $message = Message::find($message_id);
-        /*
-        $message->update(['content' => '資料を直ちにいただきたい']);  */
+        $message->update(['content' => $request->input('content')]);
 
         return redirect("/products/{$item_id}/trades/{$message->trade_id}");
     }

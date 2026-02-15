@@ -2,14 +2,10 @@
             <div class="title-bar-container">
                 <div>
                     <div style="height:50px;width:50px;">
-                        <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->seller->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
+                        <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->buyer->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
                     </div>
-                    <h2>「<?php echo e($product->trade->seller->name); ?>」さんとの取引画面</h2>
+                    <h2>「<?php echo e($product->trade->buyer->name); ?>」さんとの取引画面</h2>
                 </div>
-                <form action="/products/<?php echo e($product->id); ?>/trades/<?php echo e($product->trade->id); ?>" method="POST">
-                    <?php echo csrf_field(); ?>
-                    <button type="submit" class="trade-complete__btn">取引を完了する</button>
-                </form>
             </div>
             <div class="product-info-container">
                 <div style="height:130px;width:130px;">
@@ -32,7 +28,7 @@
                                 <?php echo method_field('PATCH'); ?>
                                 <div style="margin-left: 60%;">
                                     <div style="height:50px;width:50px;">
-                                        <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->buyer->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
+                                        <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->seller->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
                                     </div>
                                     <input type="text" style="width:800px;" name="content" value="<?php echo e($content->content); ?>">
                                 </div>
@@ -52,7 +48,7 @@
                             </form>
                         <?php else: ?>
                             <div style="height:50px;width:50px;">
-                                <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->seller->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
+                                <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->buyer->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
                             </div>
                             <div><p><?php echo e($content->content); ?></p></div>
                             <?php if($content->image): ?>
@@ -82,7 +78,7 @@
                         画像を追加
                         <input type="file" name="file" class="file-input">
                     </label>
-                    <input type="hidden" name="page" value="buyer">
+                    <input type="hidden" name="page" value="seller">
                     <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
                     <?php $__errorArgs = ['content'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -186,4 +182,5 @@ unset($__errorArgs, $__bag); ?>
     margin-left: 15px;
 }
         </style>
-<?php /**PATH /var/www/resources/views/livewire/test.blade.php ENDPATH**/ ?>
+
+<?php /**PATH /var/www/resources/views/livewire/post.blade.php ENDPATH**/ ?>

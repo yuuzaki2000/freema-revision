@@ -46,42 +46,35 @@
         <form action="/mypage" method="get" class="purchase">
             <input type="hidden" name="page" value="trade">
             <button type="submit" class="purchase-btn">取引中の商品</button>
-            {{--
-            @php
-                if(){
-                    $message_count = App\Models\Trade::where('seller_id', Auth::id())->get()->count();
-                }else if(){
-                    $message_count = App\Models\Trade::where('buyer_id', Auth::id())->get()->count();
-                }else{
-                    $message_count = 0;
-                }
-            @endphp  --}}
-            @php
-                $message_count = App\Models\Trade::where('seller_id', Auth::id())->get()->count();
-            @endphp
-            @if ($message_count)
-                <div class="icon-wrapper">
-                    <span class="badge">{{$message_count}}</span>
-                </div>
-            @else
-                <div><p></p></div>
-            @endif
+            <div class="icon-wrapper">
+                <span class="badge">{{$total_message_count}}</span>
+            </div>
         </form>
     </div>
     <div class="container">
         @php
-            $particularProducts = $products->sortBy('created_at');
-            //変更要
+            $products = $products->sortBy(function ($product) {
+                            return optional($product->trade->messages->last())->created_at;
+                        });
         @endphp
         <ul class="group">
                 @if ($products->count() > 0)
                 @foreach ($products as $product)
                     @php
                         if($product->trade){
-                            $message_count = App\Models\Message::where('trade_id', $product->trade->id)
-                                        ->whereHas('trade', function ($query) {
-                                                $query->where('seller_id', Auth::id());
-                                        })->count();
+                            $last_my_message = App\Models\Message::where('trade_id', $product->trade->id)
+                                        ->where('user_id', Auth::id())
+                                        ->latest()
+                                        ->first();
+                            if($last_my_message){
+                                $message_count = App\Models\Message::where('trade_id', $product->trade->id)
+                                        ->where('user_id', '!=', Auth::id())
+                                        ->orderBy('created_at', 'desc')
+                                        ->where('id', '>', $last_my_message->id)
+                                        ->count();
+                            }else{
+                                $message_count = App\Models\Message::where('trade_id', $product->trade->id)->count();
+                            }
                         }else{
                             $message_count = 0;
                         }

@@ -11,6 +11,8 @@ use App\Models\Purchase;
 use App\Http\Requests\AddressRequest;
 use App\Models\User;
 use App\Models\Trade;
+use App\Models\Message;
+
 
 
 class ProfileController extends Controller
@@ -34,15 +36,6 @@ class ProfileController extends Controller
             }
             $page = $request->page;
         }else if($request->page == "trade"){
-
-            /*
-            $trade = ;
-        if($trade->buyer->id == Auth::id()){
-                
-        }else if(Trade::find($trade_id)->seller->id == Auth::id()){
-            
-        }else{
-        }      */
 
             $particularProducts = Product::all();
 
@@ -76,9 +69,35 @@ class ProfileController extends Controller
             $page = $request->page;
         }
 
+
+        $total_message_count = 0;
+
+        if ($products->count() > 0){
+            foreach($products as $product){
+                if($product->trade){
+                        $last_my_message = Message::where('trade_id', $product->trade->id)
+                                        ->where('user_id', Auth::id())
+                                        ->latest()
+                                        ->first();
+                        if($last_my_message){
+                            $message_count = Message::where('trade_id', $product->trade->id)
+                                        ->where('user_id', '!=', Auth::id())
+                                        ->orderBy('created_at', 'desc')
+                                        ->where('id', '>', $last_my_message->id)
+                                        ->count();
+                            $total_message_count += $message_count;
+                        }
+                }else{
+                        $message_count = 0;
+                        $total_message_count += $message_count;
+                }
+            }
+        }else{
+        }
+
         $profile = Profile::where('user_id', Auth::id())->first();
 
-        return view('mypage', compact('products', 'page', 'profile'));
+        return view('mypage', compact('products', 'page', 'profile', 'total_message_count'));
     }
 
     public function configure(){

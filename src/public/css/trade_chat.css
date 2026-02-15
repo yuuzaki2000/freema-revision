@@ -1,11 +1,11 @@
 .total-container {
     display: flex;
     flex-direction: row;
-    height: 100vh;
 }
 
 .side-bar {
     width: 20%;
+    height: 100vh;
     background-color: #868686;
 }
 
@@ -15,13 +15,13 @@
 
 .center {
     width: 80%;
-    height: 100%;
+    height: 100vh;
 }
 
 .center-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
 }
 
 .title-bar-container {

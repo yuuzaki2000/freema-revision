@@ -2,14 +2,10 @@
             <div class="title-bar-container">
                 <div>
                     <div style="height:50px;width:50px;">
-                        <img src="{{asset('storage/profile_img/' . $product->trade->seller->profile->image)}}" alt="ユーザー画像" style="width:100%;">
+                        <img src="{{asset('storage/profile_img/' . $product->trade->buyer->profile->image)}}" alt="ユーザー画像" style="width:100%;">
                     </div>
-                    <h2>「{{$product->trade->seller->name}}」さんとの取引画面</h2>
+                    <h2>「{{$product->trade->buyer->name}}」さんとの取引画面</h2>
                 </div>
-                <form action="/products/{{$product->id}}/trades/{{$product->trade->id}}" method="POST">
-                    @csrf
-                    <button type="submit" class="trade-complete__btn">取引を完了する</button>
-                </form>
             </div>
             <div class="product-info-container">
                 <div style="height:130px;width:130px;">
@@ -32,7 +28,7 @@
                                 @method('PATCH')
                                 <div style="margin-left: 60%;">
                                     <div style="height:50px;width:50px;">
-                                        <img src="{{asset('storage/profile_img/' . $product->trade->buyer->profile->image)}}" alt="ユーザー画像" style="width:100%;">
+                                        <img src="{{asset('storage/profile_img/' . $product->trade->seller->profile->image)}}" alt="ユーザー画像" style="width:100%;">
                                     </div>
                                     <input type="text" style="width:800px;" name="content" value="{{$content->content}}">
                                 </div>
@@ -52,7 +48,7 @@
                             </form>
                         @else
                             <div style="height:50px;width:50px;">
-                                <img src="{{asset('storage/profile_img/' . $product->trade->seller->profile->image)}}" alt="ユーザー画像" style="width:100%;">
+                                <img src="{{asset('storage/profile_img/' . $product->trade->buyer->profile->image)}}" alt="ユーザー画像" style="width:100%;">
                             </div>
                             <div><p>{{$content->content}}</p></div>
                             @if ($content->image)
@@ -82,7 +78,7 @@
                         画像を追加
                         <input type="file" name="file" class="file-input">
                     </label>
-                    <input type="hidden" name="page" value="buyer">
+                    <input type="hidden" name="page" value="seller">
                     <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
                     @error('content')
                         <div style="color:red;">{{$message}}</div>
@@ -172,3 +168,4 @@
     margin-left: 15px;
 }
         </style>
+

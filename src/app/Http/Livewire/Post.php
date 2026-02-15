@@ -3,11 +3,10 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use App\Models\Message;
 
-class Test extends Component
+
+class Post extends Component
 {
-
     public $product;
     public $contents;
     public $side_trades;
@@ -35,6 +34,6 @@ class Test extends Component
 
     public function render()
     {
-        return view('livewire.test');
+        return view('livewire.post');
     }
 }
