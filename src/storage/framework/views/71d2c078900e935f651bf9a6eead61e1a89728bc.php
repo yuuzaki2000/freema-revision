@@ -115,15 +115,15 @@ unset($__errorArgs, $__bag); ?>
                         <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product])->html();
-} elseif ($_instance->childHasBeenRendered('GwBDAcI')) {
-    $componentId = $_instance->getRenderedChildComponentId('GwBDAcI');
-    $componentTag = $_instance->getRenderedChildComponentTagName('GwBDAcI');
+} elseif ($_instance->childHasBeenRendered('kb89NQZ')) {
+    $componentId = $_instance->getRenderedChildComponentId('kb89NQZ');
+    $componentTag = $_instance->getRenderedChildComponentTagName('kb89NQZ');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('GwBDAcI');
+    $_instance->preserveRenderedChild('kb89NQZ');
 } else {
     $response = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product]);
     $html = $response->html();
-    $_instance->logRenderedChild('GwBDAcI', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('kb89NQZ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

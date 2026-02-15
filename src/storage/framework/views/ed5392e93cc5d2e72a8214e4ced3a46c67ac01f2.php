@@ -10,7 +10,7 @@
             <img src="<?php echo e(asset('storage/profile_img/' . $profile->image)); ?>" alt="プロフィール画像">
         </div>
         <?php endif; ?>
-        <h2><?php echo e($user->name); ?></h2>
+        <h2><?php echo e($profile->user->name); ?></h2>
         <?php
             $stars = App\Models\Star::where('user_id', $profile->user_id)->get();
             $stars_count = $stars->count();
@@ -44,13 +44,13 @@
         <form action="/mypage" method="get" class="purchase">
             <input type="hidden" name="page" value="trade">
             <button type="submit" class="purchase-btn">取引中の商品</button>
+            
             <?php
-                $trades = App\Models\Trade::where('seller_id', Auth::id())->get();
-                $trade_message_count = $trades->count();
+                $message_count = App\Models\Trade::where('seller_id', Auth::id())->get()->count();
             ?>
-            <?php if($trade_message_count): ?>
+            <?php if($message_count): ?>
                 <div class="icon-wrapper">
-                    <span class="badge"><?php echo e($trade_message_count); ?></span>
+                    <span class="badge"><?php echo e($message_count); ?></span>
                 </div>
             <?php else: ?>
                 <div><p></p></div>

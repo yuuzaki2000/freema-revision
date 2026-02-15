@@ -35,6 +35,15 @@ class ProfileController extends Controller
             $page = $request->page;
         }else if($request->page == "trade"){
 
+            /*
+            $trade = ;
+        if($trade->buyer->id == Auth::id()){
+                
+        }else if(Trade::find($trade_id)->seller->id == Auth::id()){
+            
+        }else{
+        }      */
+
             $particularProducts = Product::all();
 
             foreach($particularProducts as $product){
@@ -68,9 +77,8 @@ class ProfileController extends Controller
         }
 
         $profile = Profile::where('user_id', Auth::id())->first();
-        $user = User::find(Auth::id());
 
-        return view('mypage', compact('products', 'page', 'user', 'profile'));
+        return view('mypage', compact('products', 'page', 'profile'));
     }
 
     public function configure(){

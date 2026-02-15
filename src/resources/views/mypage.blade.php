@@ -12,7 +12,7 @@
             <img src="{{asset('storage/profile_img/' . $profile->image)}}" alt="プロフィール画像">
         </div>
         @endisset
-        <h2>{{$user->name}}</h2>
+        <h2>{{$profile->user->name}}</h2>
         @php
             $stars = App\Models\Star::where('user_id', $profile->user_id)->get();
             $stars_count = $stars->count();
@@ -46,13 +46,22 @@
         <form action="/mypage" method="get" class="purchase">
             <input type="hidden" name="page" value="trade">
             <button type="submit" class="purchase-btn">取引中の商品</button>
+            {{--
             @php
-                $trades = App\Models\Trade::where('seller_id', Auth::id())->get();
-                $trade_message_count = $trades->count();
+                if(){
+                    $message_count = App\Models\Trade::where('seller_id', Auth::id())->get()->count();
+                }else if(){
+                    $message_count = App\Models\Trade::where('buyer_id', Auth::id())->get()->count();
+                }else{
+                    $message_count = 0;
+                }
+            @endphp  --}}
+            @php
+                $message_count = App\Models\Trade::where('seller_id', Auth::id())->get()->count();
             @endphp
-            @if ($trade_message_count)
+            @if ($message_count)
                 <div class="icon-wrapper">
-                    <span class="badge">{{$trade_message_count}}</span>
+                    <span class="badge">{{$message_count}}</span>
                 </div>
             @else
                 <div><p></p></div>

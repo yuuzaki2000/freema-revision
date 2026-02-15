@@ -24,10 +24,6 @@
                     </div>
                     <h2>「<?php echo e($product->trade->buyer->name); ?>」さんとの取引画面</h2>
                 </div>
-                <form action="/products/<?php echo e($product->id); ?>/trades/<?php echo e($product->trade->id); ?>" method="POST">
-                    <?php echo csrf_field(); ?>
-                    <button type="submit" class="trade-complete__btn">取引を完了する</button>
-                </form>
             </div>
             <div class="product-info-container">
                 <div style="height:130px;width:130px;">
@@ -118,21 +114,23 @@ unset($__errorArgs, $__bag); ?>
             <a href="#!" class="modal-overlay"></a>
             <div class="modal__inner">
                 <div class="modal__content">
-                    <form action="/star/<?php echo e($product->trade->id); ?>" method="POST" class="modal-container">
-                        <?php echo csrf_field(); ?>
-                        <h3>取引が完了しました</h3>
-                        <p>今回の取引相手はどうでしたか？</p>
-                        <select name="star_point">
-                            <option value="">星の数を選択</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <input type="hidden" name="star_receiver_id" value="<?php echo e($product->trade->buyer->id); ?>">
-                        <button type="submit" class="star__btn">送信する</button>
-                    </form>
+                    <div class="modal-container">
+                        <?php
+if (! isset($_instance)) {
+    $html = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product])->html();
+} elseif ($_instance->childHasBeenRendered('EOYdvCd')) {
+    $componentId = $_instance->getRenderedChildComponentId('EOYdvCd');
+    $componentTag = $_instance->getRenderedChildComponentTagName('EOYdvCd');
+    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
+    $_instance->preserveRenderedChild('EOYdvCd');
+} else {
+    $response = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product]);
+    $html = $response->html();
+    $_instance->logRenderedChild('EOYdvCd', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+}
+echo $html;
+?>
+                    </div>
                 </div>
             </div>
         </div>

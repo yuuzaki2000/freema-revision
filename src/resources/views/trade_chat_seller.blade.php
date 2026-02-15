@@ -26,10 +26,6 @@
                     </div>
                     <h2>「{{$product->trade->buyer->name}}」さんとの取引画面</h2>
                 </div>
-                <form action="/products/{{$product->id}}/trades/{{$product->trade->id}}" method="POST">
-                    @csrf
-                    <button type="submit" class="trade-complete__btn">取引を完了する</button>
-                </form>
             </div>
             <div class="product-info-container">
                 <div style="height:130px;width:130px;">
@@ -106,21 +102,9 @@
             <a href="#!" class="modal-overlay"></a>
             <div class="modal__inner">
                 <div class="modal__content">
-                    <form action="/star/{{$product->trade->id}}" method="POST" class="modal-container">
-                        @csrf
-                        <h3>取引が完了しました</h3>
-                        <p>今回の取引相手はどうでしたか？</p>
-                        <select name="star_point">
-                            <option value="">星の数を選択</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <input type="hidden" name="star_receiver_id" value="{{$product->trade->buyer->id}}">
-                        <button type="submit" class="star__btn">送信する</button>
-                    </form>
+                    <div class="modal-container">
+                        <livewire:count :seller="$product->trade->seller" :product="$product"/>
+                    </div>
                 </div>
             </div>
         </div>
