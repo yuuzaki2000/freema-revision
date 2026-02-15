@@ -1,29 +1,15 @@
-<?php $__env->startSection('css'); ?>
-<link rel="stylesheet" href="<?php echo e(asset('css/trade_chat.css')); ?>">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('total-container'); ?>
-<div class="total-container">
-    <div class="side-bar">
-        <p class="side-bar-title">その他の取引</p>
-        <?php $__currentLoopData = $side_trades; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $trade): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <form action="/products/<?php echo e($trade->product->id); ?>/trades" method="GET">
-                <?php echo csrf_field(); ?>
-                <button type="submit">取引<?php echo e($trade->id); ?></button>
-
-            </form>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </div>
-    <div class="center">
         <div class="center-container">
             <div class="title-bar-container">
                 <div>
                     <div style="height:50px;width:50px;">
-                        <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->buyer->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
+                        <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->seller->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
                     </div>
-                    <h2>「<?php echo e($product->trade->buyer->name); ?>」さんとの取引画面</h2>
+                    <h2>「<?php echo e($product->trade->seller->name); ?>」さんとの取引画面</h2>
                 </div>
+                <form action="/products/<?php echo e($product->id); ?>/trades/<?php echo e($product->trade->id); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
+                    <button type="submit" class="trade-complete__btn">取引を完了する</button>
+                </form>
             </div>
             <div class="product-info-container">
                 <div style="height:130px;width:130px;">
@@ -38,7 +24,10 @@
                 <div class="message-group">
                     <?php $__currentLoopData = $contents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $content): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php if($content->user_id == Auth::id()): ?>
-                            <div style="margin-left: 60%;"><p><?php echo e($content->content); ?></p></div>
+                            <form style="margin-left: 60%;" action="" method="">
+                                <input type="text" name="content" value="<?php echo e($content->content); ?>">
+                                <p><?php echo e($content->content); ?></p>
+                            </form>
                             <?php if($content->image): ?>
                             <div style="margin-left: 60%;">
                                 <img src="<?php echo e(asset('storage/message_img/' . $content->image)); ?>" alt="画像メッセージ">
@@ -80,13 +69,14 @@
                 </div>
                 <form action="/products/<?php echo e($product->id); ?>/trades/messages" method="POST" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
-                    <input type="text" name="content" style="width:400px;" placeholder="取引メッセージを入力してください">
+                    <input type="text" name="content" wire:model="content" style="width:400px;" placeholder="取引メッセージを入力してください">
                     <label class="file-label">
                         画像を追加
                         <input type="file" name="file" class="file-input">
                     </label>
                     <input type="hidden" name="page" value="buyer">
                     <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
+                    <p><?php echo e($content); ?></p>
                     <?php $__errorArgs = ['content'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -110,33 +100,83 @@ unset($__errorArgs, $__bag); ?>
                 </form>
             </div>
         </div>
-        <div class="modal" id="modal">
-            <a href="#!" class="modal-overlay"></a>
-            <div class="modal__inner">
-                <div class="modal__content">
-                    <div class="modal-container">
-                        <?php
-if (! isset($_instance)) {
-    $html = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product])->html();
-} elseif ($_instance->childHasBeenRendered('Z0crQXQ')) {
-    $componentId = $_instance->getRenderedChildComponentId('Z0crQXQ');
-    $componentTag = $_instance->getRenderedChildComponentTagName('Z0crQXQ');
-    $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('Z0crQXQ');
-} else {
-    $response = \Livewire\Livewire::mount('count', ['seller' => $product->trade->seller,'product' => $product]);
-    $html = $response->html();
-    $_instance->logRenderedChild('Z0crQXQ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+        <style> 
+.center-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
-echo $html;
-?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<?php $__env->stopSection(); ?>
 
+.title-bar-container {
+    height: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
-<?php echo $__env->make('layouts.trade', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/resources/views/trade_chat_seller.blade.php ENDPATH**/ ?>
+.trade-complete__btn {
+    background-color: #FF8282;
+    color: #FFF;
+    width: 20vh;
+    height: 4vh;
+    border-radius: 2vh;
+}
+
+.product-info-container {
+    height: 20%;
+    border-top: 2px solid #000;
+    display: flex;
+    flex-direction: row;
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 20px;
+}
+
+.message-container {
+    height: 65%;
+    border-top: 2px solid #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-img__wrapper {
+    width: 50px;
+}
+
+.product-img {
+    width: 100%;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: blue;
+    color: #FFF;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update-delete-btn {
+    display: flex;
+    flex-direction: row;
+}
+
+.delete-btn {
+    margin-left: 15px;
+}
+        </style>
+<?php /**PATH /var/www/resources/views/livewire/test.blade.php ENDPATH**/ ?>

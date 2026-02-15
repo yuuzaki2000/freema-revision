@@ -31,9 +31,10 @@ class TradeController extends Controller
     public function getDetail($item_id, $trade_id){
         $trade = Trade::find($trade_id);
         if($trade->buyer->id == Auth::id()){
-                $product = Product::find($item_id);
-                $contents = Message::all();
-                return view('trade_chat_buyer', compact('product', 'contents'));
+            $side_trades = Trade::where('buyer_id', Auth::id())->get();
+            $product = Product::find($item_id);
+            $contents = Message::all();
+            return view('trade_chat_buyer', compact('product', 'contents', 'side_trades'));
         }else if(Trade::find($trade_id)->seller->id == Auth::id()){
             $side_trades = Trade::where('seller_id', Auth::id())->get();
             $product = Product::find($item_id);
@@ -56,6 +57,8 @@ class TradeController extends Controller
         $data = $request->only(['content']);
         //選択した画像をstorage/message_imgに保存
         $file = $request->file('file');
+        $product = Product::find($item_id);
+        $trade = $product->trade;
         if($file !== null){
             $file_name = $file->getClientOriginalName(); 
             $file->storeAs('public/message_img', $file_name);
