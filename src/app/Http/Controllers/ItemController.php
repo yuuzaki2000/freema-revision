@@ -172,13 +172,6 @@ class ItemController extends Controller
             ];
         }
 
-        Trade::create([
-            'product_id' => $item_id,
-            'buyer_id' => Auth::id(),
-            'seller_id' => $product->listing->user_id,
-            'status' => 'negotiating'
-        ]);
-        
         return view('purchase', $data);
     }
 }

@@ -8,6 +8,8 @@ use Stripe\Checkout\Session;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PurchaseRequest;
+use App\Models\Trade;
+use App\Models\Product;
 
 
 class StripeController extends Controller
@@ -47,6 +49,16 @@ class StripeController extends Controller
             'success_url' => route('success'),
             'cancel_url' => route('index'),
         ]);
+
+        $product = Product::find($request->product_id);
+
+        Trade::create([
+            'product_id' => $request->product_id,
+            'buyer_id' => Auth::id(),
+            'seller_id' => $product->listing->user_id,
+            'status' => 'negotiating'
+        ]);
+        
 
         return redirect()->away($session->url);
     }

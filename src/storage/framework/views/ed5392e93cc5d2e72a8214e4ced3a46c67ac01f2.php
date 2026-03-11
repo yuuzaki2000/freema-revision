@@ -50,11 +50,6 @@
         </form>
     </div>
     <div class="container">
-        <?php
-            $products = $products->sortBy(function ($product) {
-                            return optional($product->trade->messages->last())->created_at;
-                        });
-        ?>
         <ul class="group">
                 <?php if($products->count() > 0): ?>
                 <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -65,28 +60,31 @@
                                         ->latest()
                                         ->first();
                             if($last_my_message){
-                                $message_count = App\Models\Message::where('trade_id', $product->trade->id)
+                                $new_message_count = App\Models\Message::where('trade_id', $product->trade->id)
                                         ->where('user_id', '!=', Auth::id())
-                                        ->orderBy('created_at', 'desc')
                                         ->where('id', '>', $last_my_message->id)
                                         ->count();
                             }else{
-                                $message_count = App\Models\Message::where('trade_id', $product->trade->id)->count();
+                                $new_message_count = 0;
                             }
                         }else{
-                            $message_count = 0;
+                            $new_message_count = 0;
                         }
                     ?>
                     <li class="compartment">
                         <form action="/products/<?php echo e($product->id); ?>/trades" class="item" method="GET">
                             <?php echo csrf_field(); ?>
-                                    <?php if($message_count): ?>
+                                <?php if($page == "trade"): ?>
+                                    <?php if(isset($new_message_count)): ?>
                                         <div class="icon-wrapper">
-                                            <span class="badge"><?php echo e($message_count); ?></span>
+                                            <span class="badge"><?php echo e($new_message_count); ?></span>
                                         </div>
                                     <?php else: ?>
                                         <div><p></p></div>
                                     <?php endif; ?>
+                                <?php else: ?>
+                                    <div><p></p></div>
+                                <?php endif; ?>
                                 <button type="submit"><img src="<?php echo e(asset($product->image)); ?>" alt="商品画像" width="100%"></button>
                                 <div class="product-info">
                                     <p><?php echo e($product->name); ?></p>

@@ -52,11 +52,6 @@
         </form>
     </div>
     <div class="container">
-        @php
-            $products = $products->sortBy(function ($product) {
-                            return optional($product->trade->messages->last())->created_at;
-                        });
-        @endphp
         <ul class="group">
                 @if ($products->count() > 0)
                 @foreach ($products as $product)
@@ -67,28 +62,31 @@
                                         ->latest()
                                         ->first();
                             if($last_my_message){
-                                $message_count = App\Models\Message::where('trade_id', $product->trade->id)
+                                $new_message_count = App\Models\Message::where('trade_id', $product->trade->id)
                                         ->where('user_id', '!=', Auth::id())
-                                        ->orderBy('created_at', 'desc')
                                         ->where('id', '>', $last_my_message->id)
                                         ->count();
                             }else{
-                                $message_count = App\Models\Message::where('trade_id', $product->trade->id)->count();
+                                $new_message_count = 0;
                             }
                         }else{
-                            $message_count = 0;
+                            $new_message_count = 0;
                         }
                     @endphp
                     <li class="compartment">
                         <form action="/products/{{$product->id}}/trades" class="item" method="GET">
                             @csrf
-                                    @if ($message_count)
+                                @if ($page == "trade")
+                                    @if (isset($new_message_count))
                                         <div class="icon-wrapper">
-                                            <span class="badge">{{$message_count}}</span>
+                                            <span class="badge">{{$new_message_count}}</span>
                                         </div>
                                     @else
                                         <div><p></p></div>
                                     @endif
+                                @else
+                                    <div><p></p></div>
+                                @endif
                                 <button type="submit"><img src="{{asset($product->image)}}" alt="商品画像" width="100%"></button>
                                 <div class="product-info">
                                     <p>{{$product->name}}</p>

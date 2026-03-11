@@ -19,6 +19,26 @@ class ProfileController extends Controller
 {
     //
     public function index(Request $request){
+
+        $trades = Trade::where(function($q) {
+                            $q->where('buyer_id', Auth::id())
+                                ->orWhere('seller_id', Auth::id());
+                        })
+                        ->with('latestMessage')
+                        ->get()
+                        ->sortByDesc(function($trade) {
+                                        // 最新メッセージが存在し、かつ送信者が自分ではない（相手である）場合
+                                        if ($trade->latestMessage && $trade->latestMessage->user_id !== Auth::id()) {
+                                        // そのメッセージの作成日時をソート基準にする
+                                        return $trade->latestMessage->created_at;
+                                        }
+                
+                                        // 相手からのメッセージがない、あるいは自分が最後に送った場合は
+                                        // ソート順が一番下になるように非常に古い日時（またはnull）を返す
+                                        return null; 
+                        })
+                        ->values();
+
         if($request->page == "buy"){
             $purchases = Purchase::where('user_id', Auth::id())->get();
             $products = collect();
@@ -36,36 +56,16 @@ class ProfileController extends Controller
             }
             $page = $request->page;
         }else if($request->page == "trade"){
-
-            $particularProducts = Product::all();
-
-            foreach($particularProducts as $product){
-                $purchase = Purchase::where('product_id', $product->id)->first();
-                if($purchase){
-                    $product->isSold = 'true';
-                }else{
-                    $product->isSold = 'false';
-                }
-            }
-
-            $buyer_products = Product::whereHas('purchase', function ($q) {
-                                                    $q->where('user_id', Auth::id());
-                                                })->get();
-
-            $seller_products = $particularProducts
-                                ->filter(function ($product) {
-                                            return $product->listing && $product->listing->user_id === Auth::id() && $product->isSold === 'true';
-                                    })->values();
-            $seller_products = $seller_products->map(function ($product) {
-                                                        unset($product['isSold']);
-                                                        return $product;
-                                                    });
-
-            $products = $buyer_products->merge($seller_products)->values();
+            
+            $products = $trades->map(function ($trade) {
+                                    return Product::find($trade->product_id);
+                                });
 
             $page = $request->page;
         }else{
-            $products = collect();
+            $products = $trades->map(function ($trade) {
+                                    return Product::find($trade->product_id);
+                                });
             $page = $request->page;
         }
 
@@ -89,7 +89,6 @@ class ProfileController extends Controller
                         }
                 }else{
                         $message_count = 0;
-                        $total_message_count += $message_count;
                 }
             }
         }else{
