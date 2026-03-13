@@ -18,7 +18,7 @@
         @endforeach
     </div>
     <div class="center">
-        <livewire:test :product="$product" :contents="$contents" :side_trades="$side_trades" :partner="$product->trade->seller"/>
+        <livewire:buyer :product="$product" :side_trades="$side_trades" :partner="$product->trade->seller"/>
         <div class="modal" id="modal">
             <a href="#!" class="modal-overlay"></a>
             <div class="modal__inner">

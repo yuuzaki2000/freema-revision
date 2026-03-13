@@ -14,12 +14,11 @@
             <form action="/products/{{$trade->product->id}}/trades" method="GET">
                 @csrf
                 <button type="submit">取引{{$trade->id}}</button>
-
             </form>
         @endforeach
     </div>
     <div class="center">
-        <livewire:post :product="$product" :contents="$contents" :side_trades="$side_trades" :partner="$product->trade->buyer"/>
+        <livewire:seller :product="$product" :side_trades="$side_trades" :partner="$product->trade->buyer"/>
         <div class="modal" id="modal">
             <a href="#!" class="modal-overlay"></a>
             <div class="modal__inner">

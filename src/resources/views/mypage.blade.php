@@ -81,16 +81,16 @@
                                         <div class="icon-wrapper">
                                             <span class="badge">{{$new_message_count}}</span>
                                         </div>
+                                        <button type="submit"><img src="{{asset($product->image)}}" alt="商品画像" width="100%"></button>
+                                        <div class="product-info">
+                                            <p>{{$product->name}}</p>
+                                        </div>
                                     @else
                                         <div><p></p></div>
                                     @endif
                                 @else
                                     <div><p></p></div>
                                 @endif
-                                <button type="submit"><img src="{{asset($product->image)}}" alt="商品画像" width="100%"></button>
-                                <div class="product-info">
-                                    <p>{{$product->name}}</p>
-                                </div>
                         </form>
                     </li>
                 @endforeach

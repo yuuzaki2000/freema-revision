@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
     <link rel="stylesheet" href="<?php echo e(asset('css/trade.css')); ?>">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.10/dist/cdn.min.js"></script>
     <?php echo $__env->yieldContent('css'); ?>
 </head>
 <body>

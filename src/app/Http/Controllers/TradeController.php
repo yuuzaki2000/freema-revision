@@ -33,14 +33,14 @@ class TradeController extends Controller
         if($trade->buyer->id == Auth::id()){
             $side_trades = Trade::where('buyer_id', Auth::id())->get();
             $product = Product::find($item_id);
-            $contents = Message::whereHas('trade', function ($q) {
+            $messages = Message::whereHas('trade', function ($q) {
                             $q->where('buyer_id', Auth::id());
                         })
                         ->orWhereHas('trade', function ($q) {
                             $q->where('seller_id', Auth::id());
                         })
                         ->get();
-            return view('trade_chat_buyer', compact('product', 'contents', 'side_trades'));
+            return view('trade_chat_buyer', compact('product', 'side_trades'));
         }else if(Trade::find($trade_id)->seller->id == Auth::id()){
             $side_trades = Trade::where('seller_id', Auth::id())->get();
             $product = Product::find($item_id);
@@ -51,7 +51,7 @@ class TradeController extends Controller
                             $q->where('seller_id', Auth::id());
                         })
                         ->get();
-            return view('trade_chat_seller', compact('product', 'contents','side_trades'));
+            return view('trade_chat_seller', compact('product', 'side_trades'));
         }else{
         }
     }

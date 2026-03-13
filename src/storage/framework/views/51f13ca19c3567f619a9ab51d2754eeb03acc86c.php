@@ -13,23 +13,22 @@
             <form action="/products/<?php echo e($trade->product->id); ?>/trades" method="GET">
                 <?php echo csrf_field(); ?>
                 <button type="submit">取引<?php echo e($trade->id); ?></button>
-
             </form>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
     <div class="center">
         <?php
 if (! isset($_instance)) {
-    $html = \Livewire\Livewire::mount('post', ['sideTrades' => $side_trades,'product' => $product,'contents' => $contents,'side_trades' => $side_trades,'partner' => $product->trade->buyer])->html();
-} elseif ($_instance->childHasBeenRendered('ESIv6br')) {
-    $componentId = $_instance->getRenderedChildComponentId('ESIv6br');
-    $componentTag = $_instance->getRenderedChildComponentTagName('ESIv6br');
+    $html = \Livewire\Livewire::mount('seller', ['sideTrades' => $side_trades,'product' => $product,'side_trades' => $side_trades,'partner' => $product->trade->buyer])->html();
+} elseif ($_instance->childHasBeenRendered('PIS1MeT')) {
+    $componentId = $_instance->getRenderedChildComponentId('PIS1MeT');
+    $componentTag = $_instance->getRenderedChildComponentTagName('PIS1MeT');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('ESIv6br');
+    $_instance->preserveRenderedChild('PIS1MeT');
 } else {
-    $response = \Livewire\Livewire::mount('post', ['sideTrades' => $side_trades,'product' => $product,'contents' => $contents,'side_trades' => $side_trades,'partner' => $product->trade->buyer]);
+    $response = \Livewire\Livewire::mount('seller', ['sideTrades' => $side_trades,'product' => $product,'side_trades' => $side_trades,'partner' => $product->trade->buyer]);
     $html = $response->html();
-    $_instance->logRenderedChild('ESIv6br', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('PIS1MeT', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -41,15 +40,15 @@ echo $html;
                         <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('count', ['partner' => $product->trade->buyer,'product' => $product])->html();
-} elseif ($_instance->childHasBeenRendered('dQaAlA4')) {
-    $componentId = $_instance->getRenderedChildComponentId('dQaAlA4');
-    $componentTag = $_instance->getRenderedChildComponentTagName('dQaAlA4');
+} elseif ($_instance->childHasBeenRendered('0hupKUJ')) {
+    $componentId = $_instance->getRenderedChildComponentId('0hupKUJ');
+    $componentTag = $_instance->getRenderedChildComponentTagName('0hupKUJ');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('dQaAlA4');
+    $_instance->preserveRenderedChild('0hupKUJ');
 } else {
     $response = \Livewire\Livewire::mount('count', ['partner' => $product->trade->buyer,'product' => $product]);
     $html = $response->html();
-    $_instance->logRenderedChild('dQaAlA4', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('0hupKUJ', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

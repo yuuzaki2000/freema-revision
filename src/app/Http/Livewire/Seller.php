@@ -3,21 +3,20 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Models\Message;
 
 
-class Post extends Component
+class Seller extends Component
 {
     public $product;
-    public $contents;
     public $side_trades;
     public $content;
-    public $message_id;
 
     public $editable;
+    public $message;
 
-    public function mount($product, $contents, $side_trades){
+    public function mount($product, $side_trades){
         $this->product = $product;
-        $this->contents = $contents;
         $this->side_trades = $side_trades;
         $this->content = session('content','');
 
@@ -28,12 +27,14 @@ class Post extends Component
         session()->put('content', $value);
     }
 
-    public function changeToEditable(){
-        $this->editable = true;
+    public function save($id, $updatedMessage){
+        $message = Message::find($id);
+        $message->update(['content' => $updatedMessage]);
     }
 
     public function render()
     {
-        return view('livewire.post');
+        return view('livewire.seller');
     }
 }
+

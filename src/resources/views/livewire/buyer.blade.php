@@ -23,29 +23,40 @@
             <div class="message-container">
                 <div class="message-group">
                     @php
-                        $contents = App\Models\Message::where('trade_id', $product->trade->id)->get();
+                        $messages = App\Models\Message::where('trade_id', $product->trade->id)->get();
                     @endphp
-                    @foreach ($contents as $content)
-                        @if($content->user_id == Auth::id())
-                            <form action="/products/{{$product->id}}/trades/messages/{{$content->id}}" method="POST">
+                    @foreach ($messages as $message)
+                        @if($message->user_id == Auth::id())
+                            <form action="/products/{{$product->id}}/trades/messages/{{$message->id}}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <div style="margin-left: 60%;">
                                     <div style="height:50px;width:50px;">
                                         <img src="{{asset('storage/profile_img/' . $product->trade->buyer->profile->image)}}" alt="ユーザー画像" style="width:100%;">
                                     </div>
-                                    <input type="text" style="width:800px;" name="content" value="{{$content->content}}">
                                 </div>
-                                @if ($content->image)
+                                @if ($message->image)
                                 <div style="margin-left: 60%;">
-                                    <img src="{{asset('storage/message_img/' . $content->image)}}" alt="画像メッセージ">
+                                    <img src="{{asset('storage/message_img/' . $message->image)}}" alt="画像メッセージ">
                                 </div>
                                 @endif
-                                <div class="update-delete-btn" style="margin-left: 60%;font-weight:200;">
-                                    <button wire:click="changeToEditable">編集</button>
+                                <div class="update-delete-btn" style="margin-left: 60%; font-weight: 200;" x-data="{ editable: false, msg : '{{ addslashes($message->content) }}' }">
+                                    <input type="text" 
+                                        name="message"
+                                        x-model ="msg"
+                                        :readonly="!editable" 
+                                        :style="editable ? 'border: 1px solid #000;' : 'border: none; outline: none;'">
+
+                                    <template x-if="!editable">
+                                        <button type="button" @click="editable = true">編集</button>
+                                    </template>
+
+                                    <template x-if="editable">
+                                        <button type="button" @click="editable = false; $wire.save({{$message->id}}, msg);">保存</button>
+                                    </template>
                                 </div>
                             </form>
-                            <form class="update-delete-btn" style="margin-left: 60%;font-weight:200;" action="/products/{{$product->id}}/trades/messages/{{$content->id}}" method="POST">
+                            <form class="update-delete-btn" style="margin-left: 60%;font-weight:200;" action="/products/{{$product->id}}/trades/messages/{{$message->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                     <button type="submit">削除</button>
@@ -54,18 +65,18 @@
                             <div style="height:50px;width:50px;">
                                 <img src="{{asset('storage/profile_img/' . $product->trade->seller->profile->image)}}" alt="ユーザー画像" style="width:100%;">
                             </div>
-                            <div><p>{{$content->content}}</p></div>
-                            @if ($content->image)
+                            <div><p>{{$message->content}}</p></div>
+                            @if ($message->image)
                             <div>
-                                <img src="{{asset('storage/message_img/' . $content->image)}}" alt="画像メッセージ">
+                                <img src="{{asset('storage/message_img/' . $message->image)}}" alt="画像メッセージ">
                             </div>
                             <div class="update-delete-btn" style="font-weight:200;">
-                                <form action="/products/{{$product->id}}/trades/messages/{{$content->id}}" method="POST">
+                                <form action="/products/{{$product->id}}/trades/messages/{{$message->id}}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                     <button type="submit">編集</button>
                                 </form>
-                                <form class="delete-btn" action="/products/{{$product->id}}/trades/messages/{{$content->id}}" method="POST">
+                                <form class="delete-btn" action="/products/{{$product->id}}/trades/messages/{{$message->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                     <button type="submit">削除</button>
@@ -77,14 +88,14 @@
                 </div>
                 <form action="/products/{{$product->id}}/trades/messages" method="POST" enctype="multipart/form-data">
                 @csrf
-                    <input type="text" name="content" wire:model="content" style="width:400px;" placeholder="取引メッセージを入力してください">
+                    <input type="text" name="message" wire:model="message" style="width:400px;" placeholder="取引メッセージを入力してください">
                     <label class="file-label">
                         画像を追加
                         <input type="file" name="file" class="file-input">
                     </label>
                     <input type="hidden" name="page" value="buyer">
                     <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
-                    @error('content')
+                    @error('message')
                         <div style="color:red;">{{$message}}</div>
                     @enderror
                     @error('file')
@@ -104,7 +115,7 @@
     height: 15%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-message: space-between;
 }
 
 .trade-complete__btn {
@@ -130,7 +141,7 @@
 .product-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-message: space-around;
     margin-left: 20px;
 }
 
@@ -139,7 +150,7 @@
     border-top: 2px solid #000;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-message: space-between;
 }
 
 .product-img__wrapper {
@@ -172,3 +183,4 @@
     margin-left: 15px;
 }
         </style>
+

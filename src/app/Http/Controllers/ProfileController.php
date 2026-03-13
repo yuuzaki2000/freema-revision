@@ -27,14 +27,9 @@ class ProfileController extends Controller
                         ->with('latestMessage')
                         ->get()
                         ->sortByDesc(function($trade) {
-                                        // 最新メッセージが存在し、かつ送信者が自分ではない（相手である）場合
                                         if ($trade->latestMessage && $trade->latestMessage->user_id !== Auth::id()) {
-                                        // そのメッセージの作成日時をソート基準にする
-                                        return $trade->latestMessage->created_at;
+                                                return $trade->latestMessage->created_at;
                                         }
-                
-                                        // 相手からのメッセージがない、あるいは自分が最後に送った場合は
-                                        // ソート順が一番下になるように非常に古い日時（またはnull）を返す
                                         return null; 
                         })
                         ->values();

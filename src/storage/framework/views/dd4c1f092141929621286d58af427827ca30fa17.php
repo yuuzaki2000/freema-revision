@@ -19,11 +19,11 @@
             <div class="message-container">
                 <div class="message-group" >
                     <?php
-                        $contents = App\Models\Message::where('trade_id', $product->trade->id)->get();
+                        $messages = App\Models\Message::where('trade_id', $product->trade->id)->get();
                     ?>
-                    <?php $__currentLoopData = $contents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $content): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php if($content->user_id == Auth::id()): ?>
-                            <form action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($content->id); ?>" method="POST">
+                    <?php $__currentLoopData = $messages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if($message->user_id == Auth::id()): ?>
+                            <form action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($message->id); ?>" method="POST">
                                 <?php echo csrf_field(); ?>
                                 <?php echo method_field('PATCH'); ?>
                                 <div style="margin-left: 60%;">
@@ -31,28 +31,28 @@
                                         <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->seller->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
                                     </div>
                                 </div>
-                                <?php if($content->image): ?>
+                                <?php if($message->image): ?>
                                 <div style="margin-left: 60%;">
-                                    <img src="<?php echo e(asset('storage/message_img/' . $content->image)); ?>" alt="画像メッセージ">
+                                    <img src="<?php echo e(asset('storage/message_img/' . $message->image)); ?>" alt="画像メッセージ">
                                 </div>
                                 <?php endif; ?>
-                                <div class="update-delete-btn" style="margin-left: 60%; font-weight: 200;" x-data="{ editable: false, msg : '<?php echo e(addslashes($content->content)); ?>' }">
+                                <div class="update-delete-btn" style="margin-left: 60%; font-weight: 200;" x-data="{ editable: false, msg : '<?php echo e(addslashes($message->content)); ?>' }">
                                     <input type="text" 
-                                        name="content"
+                                        name="message"
                                         x-model ="msg"
                                         :readonly="!editable" 
-                                        :style="editable ? 'border: 1px solid #ccc;' : 'border: none; outline: none;'">
+                                        :style="editable ? 'border: 1px solid #000;' : 'border: none; outline: none;'">
 
                                     <template x-if="!editable">
                                         <button type="button" @click="editable = true">編集</button>
                                     </template>
 
                                     <template x-if="editable">
-                                        <button type="button" @click="editable = false; $wire.save(<?php echo e($content->id); ?>, msg);">保存</button>
+                                        <button type="button" @click="editable = false; $wire.save(<?php echo e($message->id); ?>, msg);">保存</button>
                                     </template>
                                 </div>
                             </form>
-                            <form class="update-delete-btn" style="margin-left: 60%;font-weight:200;" action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($content->id); ?>" method="POST">
+                            <form class="update-delete-btn" style="margin-left: 60%;font-weight:200;" action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($message->id); ?>" method="POST">
                                 <?php echo csrf_field(); ?>
                                 <?php echo method_field('DELETE'); ?>
                                     <button type="submit">削除</button>
@@ -61,18 +61,18 @@
                             <div style="height:50px;width:50px;">
                                 <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->buyer->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
                             </div>
-                            <div><p><?php echo e($content->content); ?></p></div>
-                            <?php if($content->image): ?>
+                            <div><p><?php echo e($message->content); ?></p></div>
+                            <?php if($message->image): ?>
                             <div>
-                                <img src="<?php echo e(asset('storage/message_img/' . $content->image)); ?>" alt="画像メッセージ">
+                                <img src="<?php echo e(asset('storage/message_img/' . $message->image)); ?>" alt="画像メッセージ">
                             </div>
                             <div class="update-delete-btn" style="font-weight:200;">
-                                <form action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($content->id); ?>" method="POST">
+                                <form action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($message->id); ?>" method="POST">
                                 <?php echo csrf_field(); ?>
                                 <?php echo method_field('PATCH'); ?>
                                     <button type="submit">編集</button>
                                 </form>
-                                <form class="delete-btn" action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($content->id); ?>" method="POST">
+                                <form class="delete-btn" action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($message->id); ?>" method="POST">
                                 <?php echo csrf_field(); ?>
                                 <?php echo method_field('DELETE'); ?>
                                     <button type="submit">削除</button>
@@ -84,14 +84,14 @@
                 </div>
                 <form action="/products/<?php echo e($product->id); ?>/trades/messages" method="POST" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
-                    <input type="text" name="content" wire:model="content" style="width:400px;" placeholder="取引メッセージを入力してください">
+                    <input type="text" name="message" wire:model="message" style="width:400px;" placeholder="取引メッセージを入力してください">
                     <label class="file-label">
                         画像を追加
                         <input type="file" name="file" class="file-input">
                     </label>
                     <input type="hidden" name="page" value="seller">
                     <button type="submit"><i class="fa-regular fa-paper-plane"></i></button>
-                    <?php $__errorArgs = ['content'];
+                    <?php $__errorArgs = ['message'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -114,7 +114,7 @@ unset($__errorArgs, $__bag); ?>
                 </form>
             </div>
         </div>
-        <style> 
+        <style>
 .center-container {
     display: flex;
     flex-direction: column;
@@ -125,7 +125,7 @@ unset($__errorArgs, $__bag); ?>
     height: 15%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-message: space-between;
 }
 
 .trade-complete__btn {
@@ -151,7 +151,7 @@ unset($__errorArgs, $__bag); ?>
 .product-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-message: space-around;
     margin-left: 20px;
 }
 
@@ -160,7 +160,7 @@ unset($__errorArgs, $__bag); ?>
     border-top: 2px solid #000;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-message: space-between;
 }
 
 .product-img__wrapper {
@@ -194,4 +194,5 @@ unset($__errorArgs, $__bag); ?>
 }
         </style>
 
-<?php /**PATH /var/www/resources/views/livewire/post.blade.php ENDPATH**/ ?>
+
+<?php /**PATH /var/www/resources/views/livewire/seller.blade.php ENDPATH**/ ?>

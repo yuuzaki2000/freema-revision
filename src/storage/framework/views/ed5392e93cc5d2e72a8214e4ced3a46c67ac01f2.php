@@ -79,16 +79,16 @@
                                         <div class="icon-wrapper">
                                             <span class="badge"><?php echo e($new_message_count); ?></span>
                                         </div>
+                                        <button type="submit"><img src="<?php echo e(asset($product->image)); ?>" alt="商品画像" width="100%"></button>
+                                        <div class="product-info">
+                                            <p><?php echo e($product->name); ?></p>
+                                        </div>
                                     <?php else: ?>
                                         <div><p></p></div>
                                     <?php endif; ?>
                                 <?php else: ?>
                                     <div><p></p></div>
                                 <?php endif; ?>
-                                <button type="submit"><img src="<?php echo e(asset($product->image)); ?>" alt="商品画像" width="100%"></button>
-                                <div class="product-info">
-                                    <p><?php echo e($product->name); ?></p>
-                                </div>
                         </form>
                     </li>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
