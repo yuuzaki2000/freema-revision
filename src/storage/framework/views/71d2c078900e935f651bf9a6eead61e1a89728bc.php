@@ -20,15 +20,15 @@
         <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('buyer', ['sideTrades' => $side_trades,'product' => $product,'side_trades' => $side_trades,'partner' => $product->trade->seller])->html();
-} elseif ($_instance->childHasBeenRendered('9FJkY0G')) {
-    $componentId = $_instance->getRenderedChildComponentId('9FJkY0G');
-    $componentTag = $_instance->getRenderedChildComponentTagName('9FJkY0G');
+} elseif ($_instance->childHasBeenRendered('jlC5eaL')) {
+    $componentId = $_instance->getRenderedChildComponentId('jlC5eaL');
+    $componentTag = $_instance->getRenderedChildComponentTagName('jlC5eaL');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('9FJkY0G');
+    $_instance->preserveRenderedChild('jlC5eaL');
 } else {
     $response = \Livewire\Livewire::mount('buyer', ['sideTrades' => $side_trades,'product' => $product,'side_trades' => $side_trades,'partner' => $product->trade->seller]);
     $html = $response->html();
-    $_instance->logRenderedChild('9FJkY0G', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('jlC5eaL', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>
@@ -40,15 +40,15 @@ echo $html;
                         <?php
 if (! isset($_instance)) {
     $html = \Livewire\Livewire::mount('count', ['partner' => $product->trade->seller,'product' => $product])->html();
-} elseif ($_instance->childHasBeenRendered('xOZfTYl')) {
-    $componentId = $_instance->getRenderedChildComponentId('xOZfTYl');
-    $componentTag = $_instance->getRenderedChildComponentTagName('xOZfTYl');
+} elseif ($_instance->childHasBeenRendered('MYPcjqy')) {
+    $componentId = $_instance->getRenderedChildComponentId('MYPcjqy');
+    $componentTag = $_instance->getRenderedChildComponentTagName('MYPcjqy');
     $html = \Livewire\Livewire::dummyMount($componentId, $componentTag);
-    $_instance->preserveRenderedChild('xOZfTYl');
+    $_instance->preserveRenderedChild('MYPcjqy');
 } else {
     $response = \Livewire\Livewire::mount('count', ['partner' => $product->trade->seller,'product' => $product]);
     $html = $response->html();
-    $_instance->logRenderedChild('xOZfTYl', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
+    $_instance->logRenderedChild('MYPcjqy', $response->id(), \Livewire\Livewire::getRootElementTagName($html));
 }
 echo $html;
 ?>

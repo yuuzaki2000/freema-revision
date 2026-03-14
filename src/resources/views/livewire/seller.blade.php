@@ -25,14 +25,14 @@
                         @if($message->user_id == Auth::id())
                             <form action="/products/{{$product->id}}/trades/messages/{{$message->id}}" method="POST">
                                 @csrf
-                                <div style="margin-left: 60%;">
+                                <div class="update-delete-btn">
                                     <div class="partner-user-info" style="height:50px;width:50px;">
                                         <img src="{{asset('storage/profile_img/' . $product->trade->seller->profile->image)}}" alt="ユーザー画像" style="width:100%;">
                                         <p>{{$product->trade->seller->name}}</p>
                                     </div>
                                 </div>
                                 @if ($message->image)
-                                <div style="margin-left: 60%;">
+                                <div class="update-delete-btn">
                                     <img src="{{asset('storage/message_img/' . $message->image)}}" alt="画像メッセージ">
                                 </div>
                                 @endif
@@ -69,19 +69,7 @@
                                 <img src="{{asset('storage/message_img/' . $message->image)}}" alt="画像メッセージ">
                                 <p>{{$product->trade->seller->name}}</p>
                             </div>
-                            <div class="update-delete-btn" style="font-weight:200;">
-                                <form action="/products/{{$product->id}}/trades/messages/{{$message->id}}" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                    <button type="submit">編集</button>
-                                </form>
-                                <form class="delete-btn" action="/products/{{$product->id}}/trades/messages/{{$message->id}}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                    <button type="submit">削除</button>
-                                </form>
-                            </div>
-                        @endif
+                            @endif
                         @endif
                     @endforeach
                 </div>
@@ -176,6 +164,7 @@
 .update-delete-btn {
     display: flex;
     flex-direction: column;
+    margin-left:50%;
 }
 
 .delete-btn {
@@ -200,20 +189,42 @@
     border: 1px solid #000;
 }
 
-.my-message-container {
-    background-color: #D9D9D9;
-    width:300px;
-}
-
 .partner-user-info {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
+.my-message-container {
+    background-color: #D9D9D9;
+    width:300px;
+}
+
 .input-message {
     background-color: #D9D9D9;
     width:300px;
+}
+
+.update-delete-btn {
+    display: flex;
+    flex-direction: column;
+    margin-left:50%;
+}
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .update-delete-btn {
+        display: flex;
+        flex-direction: column;
+        margin-left:30%;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .update-delete-btn {
+        display: flex;
+        flex-direction: column;
+        margin-left:70%;
+    }
 }
         </style>
 

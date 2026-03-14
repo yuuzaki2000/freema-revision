@@ -25,14 +25,14 @@
                         <?php if($message->user_id == Auth::id()): ?>
                             <form action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($message->id); ?>" method="POST">
                                 <?php echo csrf_field(); ?>
-                                <div style="margin-left: 60%;">
+                                <div class="my-message">
                                     <div class="partner-user-info" style="height:50px;width:50px;">
                                         <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->seller->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
                                         <p><?php echo e($product->trade->seller->name); ?></p>
                                     </div>
                                 </div>
                                 <?php if($message->image): ?>
-                                <div style="margin-left: 60%;">
+                                <div class="my-message">
                                     <img src="<?php echo e(asset('storage/message_img/' . $message->image)); ?>" alt="画像メッセージ">
                                 </div>
                                 <?php endif; ?>
@@ -214,20 +214,54 @@ unset($__errorArgs, $__bag); ?>
     border: 1px solid #000;
 }
 
-.my-message-container {
-    background-color: #D9D9D9;
-    width:300px;
-}
-
 .partner-user-info {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
+.my-message {
+    margin-left: 40vw;
+}
+
+.my-message-container {
+    background-color: #D9D9D9;
+    width:25vw;
+}
+
 .input-message {
     background-color: #D9D9D9;
-    width:300px;
+    width:25vw;
+}
+@media  screen and (min-width: 768px) and (max-width: 850px) {
+    .my-message {
+        margin-left: 15vw;
+    }
+    .my-message-container {
+        background-color: #D9D9D9;
+        width:45vw;
+    }
+
+    .input-message {
+        background-color: #D9D9D9;
+        width:45vw;
+    }
+}
+
+@media  screen and (min-width: 1400px) and (max-width: 1540px) {
+    .my-message {
+        margin-left: 60vw;
+    }
+
+    .my-message-container {
+        background-color: #D9D9D9;
+        width:20vw;
+    }
+
+    .input-message {
+        background-color: #D9D9D9;
+        width:20vw;
+    }
 }
         </style>
 

@@ -29,18 +29,18 @@
                         <?php if($message->user_id == Auth::id()): ?>
                             <form action="/products/<?php echo e($product->id); ?>/trades/messages/<?php echo e($message->id); ?>" method="POST">
                                 <?php echo csrf_field(); ?>
-                                <div style="margin-left: 60%;">
+                                <div class="update-delete-btn">
                                     <div class="partner-user-info" style="height:50px;width:50px;">
                                         <img src="<?php echo e(asset('storage/profile_img/' . $product->trade->buyer->profile->image)); ?>" alt="ユーザー画像" style="width:100%;">
                                         <p><?php echo e($product->trade->buyer->name); ?></p>
                                     </div>
                                 </div>
                                 <?php if($message->image): ?>
-                                <div style="margin-left: 60%;">
+                                <div class="update-delete-btn">
                                     <img src="<?php echo e(asset('storage/message_img/' . $message->image)); ?>" alt="画像メッセージ">
                                 </div>
                                 <?php endif; ?>
-                                <div class="update-delete-btn" style="margin-left: 60%; font-weight: 200;" x-data="{ editable: false, msg : '<?php echo e(addslashes($message->content)); ?>' }">
+                                <div class="update-delete-btn" x-data="{ editable: false, msg : '<?php echo e(addslashes($message->content)); ?>' }">
                                     <input type="text" 
                                         class="input-message"
                                         name="message"
@@ -177,11 +177,6 @@ unset($__errorArgs, $__bag); ?>
     cursor: pointer;
 }
 
-.update-delete-btn {
-    display: flex;
-    flex-direction: column;
-}
-
 .delete-btn {
     margin-left: 15px;
 }
@@ -218,6 +213,28 @@ unset($__errorArgs, $__bag); ?>
 .input-message {
     background-color: #D9D9D9;
     width:300px;
+}
+
+.update-delete-btn {
+    display: flex;
+    flex-direction: column;
+    margin-left:50%;
+}
+
+@media  screen and (min-width: 768px) and (max-width: 850px) {
+    .update-delete-btn {
+        display: flex;
+        flex-direction: column;
+        margin-left:30%;
+    }
+}
+
+@media  screen and (min-width: 1400px) and (max-width: 1540px) {
+    .update-delete-btn {
+        display: flex;
+        flex-direction: column;
+        margin-left:70%;
+    }
 }
         </style>
 
