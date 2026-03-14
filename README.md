@@ -14,14 +14,16 @@
   DB_DATABASE=laravel_db
   DB_USERNAME=laravel_user
   DB_PASSWORD=laravel_pass
-5. アプリケーションキーを作成する
+5. ファイルアクセス権限の問題でアラート出る場合は、
+   chmod -R 777 ./.*
+6. アプリケーションキーを作成する
   php aritsan key:generate
-6. マイグレーションを実行する
-  php artisan migrate:
-7. シーディングを実行する
+7. マイグレーションを実行する
+  php artisan migrate
+8. シーディングを実行する
   php artisan db:seed
-8. chmod -R 777 ./storage
-9. ブラウザのキャッシュをクリア
+9. chmod -R 777 ./storage
+10. ブラウザのキャッシュをクリア
 
 [実行環境]
 MySQL 8.0.26
@@ -31,7 +33,7 @@ nginx 1.21.1
 
 [mailtrapの設定]
 mailtrapのメールボックスを作成し、
-.env内の下記※と※の間の部分を、自分のmailtrapの設定に書き換える
+.env内の下記※と※の間の部分を、Laravel8バージョンの自分のmailtrapの設定に書き換える
 
 
 ※
@@ -47,9 +49,9 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 .envに下記の変数を追加（Secret KeyやPublic Keyは、stripeのホームページから自分のものをコピー）
 
-STRIPE_SK = (test用のSecret Key)
-
 STRIPE_PK = （test用のPublic Key）
+
+STRIPE_SK = (test用のSecret Key)
 
 [stripeの決済画面でのデモ入力]
 下記を入力して試してください。
