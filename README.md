@@ -23,7 +23,8 @@
 8. シーディングを実行する
   php artisan db:seed
 9. chmod -R 777 ./storage
-10. ブラウザのキャッシュをクリア
+10. chmod -R 777 bootstrap/cache
+11. ブラウザのキャッシュをクリア
 
 [実行環境]
 MySQL 8.0.26
